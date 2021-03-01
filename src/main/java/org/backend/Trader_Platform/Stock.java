@@ -9,11 +9,16 @@ public class Stock {
 
 	private String ticker, stockName;
 	private ArrayList<Pair<LocalDate, Float>> eodTotals;
+	private Float currentPrice;
 	private LocalDate start, end;
 	
-	public Stock (String tick,String name) {
+	public Stock (String tick, String name) {
 		this.ticker = tick;
 		this.stockName = name;
+	}
+	
+	public Stock (String tick) {
+		this.ticker = tick;
 	}
 	
 	//Date added to the end of the list.
@@ -62,6 +67,14 @@ public class Stock {
 	}
 	public void setStockName(String stockName) {
 		this.stockName = stockName;
+	}
+
+	public Float getCurrentPrice() {
+		return currentPrice;
+	}
+
+	public void setCurrentPrice(Float currentPrice) {
+		this.currentPrice = currentPrice;
 	}
 	
 }
