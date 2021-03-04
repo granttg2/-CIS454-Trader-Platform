@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox id="apiMainVbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="303.0" prefWidth="256.0" spacing="20.0" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.Trader_Platform.API_Prompt">
+   <children>
+      <Label prefHeight="121.0" prefWidth="216.0" text="Please Enter Your API Key" textAlignment="CENTER" textOverrun="CLIP">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <TextField id="apiEnterBoxMarket" alignment="CENTER" prefHeight="30.0" prefWidth="216.0" />
+      <AnchorPane prefHeight="8.0" prefWidth="216.0" />
+      <AnchorPane />
+      <Pane>
+         <children>
+            <Button id="buttonClose" layoutY="26.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="11.0" text="X" />
+         </children>
+      </Pane>
+   </children>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</VBox>
