@@ -41,7 +41,7 @@ public class App extends Application {
     	newStage.setResizable(false);
     	newStage.setScene(new Scene(loadFXML(fxml)));
     	newStage.show();
-    	stage.hide();
+    	stage.close();
     	stage = newStage;
     }
     

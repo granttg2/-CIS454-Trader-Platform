@@ -8,52 +8,47 @@ import java.util.Locale;
 public class Stock {
 
 	private String ticker, stockName;
-	private ArrayList<Pair<LocalDate, Float>> eodTotals;
+	private ArrayList<Pair<LocalDate, Double>> eodTotals;
 	private Float currentPrice;
 	private LocalDate start, end;
-	
-	public Stock (String tick, String name) {
-		this.ticker = tick;
-		this.stockName = name;
-	}
-	
 	public Stock (String tick) {
 		this.ticker = tick;
+		eodTotals = new ArrayList<Pair<LocalDate, Double>>();
 	}
 	
 	//Date added to the end of the list.
-	public void addNewEOD(String date, Float total) {
-		Pair<LocalDate, Float> nPair = new Pair<LocalDate, Float>(generateLocalDate(date), total);
-		eodTotals.add(nPair);
+	public void addNewEOD(String date, Double total) {
+		eodTotals.add(new Pair<LocalDate, Double>(generateLocalDate(date), total));
 	}
 	
-	//Takes string in the yyyy-MM-dd'T'HH:mm:ss.SSSXXX(matches with market stack api
+	//Takes string in the yyyy-MM-dd'T'HH:mm:ss.SSSXXX(matches with market stack api)
 	public LocalDate generateLocalDate(String date) {
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSXXX", Locale.ENGLISH);
+		date = date.substring(0, date.indexOf('T'));
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 		LocalDate dateNew = LocalDate.parse(date, format);
 		return dateNew;
 	}
 	
-	public void setStartDate(String date){
-		start = generateLocalDate(date);
+	public void setStartDate(LocalDate date){
+		this.start = date;
 	}
 	
 	public LocalDate getStartDate() {
 		return start;
 	}
 	
-	public void setEndDate(String date){
-		end = generateLocalDate(date);
+	public void setEndDate(LocalDate date){
+		this.end = date;
 	}
 	
 	public LocalDate getEndDate() {
 		return end;
 	}
 	
-	public ArrayList<Pair<LocalDate, Float>> getEodTotals() {
+	public ArrayList<Pair<LocalDate, Double>> getEodTotals() {
 		return eodTotals;
 	}
-	public void setEodTotals(ArrayList<Pair<LocalDate, Float>> eodTotals) {
+	public void setEodTotals(ArrayList<Pair<LocalDate, Double>> eodTotals) {
 		this.eodTotals = eodTotals;
 	}
 	public String getTicker() {

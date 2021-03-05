@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import org.backend.Trader_Platform.APIKeys;
 
-public class API_Prompt {
+public class APIPrompt {
 	
 	@FXML private Button buttonClose;
 	@FXML private TextField apiEnterBoxMarket;
