@@ -13,6 +13,8 @@ public class MarketParser {
 		String end = stock.getEndDate().toString();
 		String jsonString;
 		
+
+		
 		try {
 			jsonString = APICall.getHistoricData(key, stock.getTicker(), start, end);
 			JSONObject completeJ = new JSONObject(jsonString);

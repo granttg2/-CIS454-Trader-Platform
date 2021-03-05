@@ -49,7 +49,7 @@ public class MainPage {
 	}
 	
 	
-	//Purely test function before API implementation
+	//Graphing EOD data in Stock
 	private void graph(Stock stock) {
 		ArrayList<Pair<LocalDate, Double>> prices = stock.getEodTotals();
 		
