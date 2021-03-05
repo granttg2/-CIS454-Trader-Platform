@@ -16,12 +16,12 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <TextField id="apiEnterBoxMarket" alignment="CENTER" prefHeight="30.0" prefWidth="216.0" />
+      <TextField id="apiEnterBoxMarket" fx:id="apiEnterBoxMarket" alignment="CENTER" onKeyReleased="#getMarketKey" prefHeight="30.0" prefWidth="216.0" />
       <AnchorPane prefHeight="8.0" prefWidth="216.0" />
       <AnchorPane />
       <Pane>
          <children>
-            <Button id="buttonClose" layoutY="26.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="11.0" text="X" />
+            <Button id="buttonClose" layoutY="26.0" mnemonicParsing="false" onAction="#closeButtonAction" prefHeight="0.0" prefWidth="11.0" text="X" />
          </children>
       </Pane>
    </children>

@@ -19,14 +19,14 @@
    <children>
       <SplitPane dividerPositions="0.7305122494432071" prefHeight="542.0" prefWidth="1018.0">
         <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="568.0" prefWidth="662.0">
+          <AnchorPane id="graphPane" minHeight="0.0" minWidth="0.0" prefHeight="568.0" prefWidth="662.0">
                <children>
-                  <LineChart id="lineChartHistoric" axisSortingPolicy="NONE" layoutX="-3.0" layoutY="-1.0" legendVisible="false" prefHeight="542.0" prefWidth="659.0">
+                  <LineChart id="lineChartHistoric" fx:id="lineChartHistoric" axisSortingPolicy="NONE" layoutX="-3.0" layoutY="-1.0" legendVisible="false" prefHeight="542.0" prefWidth="659.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <xAxis>
                       <CategoryAxis side="BOTTOM" />
                     </xAxis>
                     <yAxis>
-                      <NumberAxis side="RIGHT" />
+                      <NumberAxis forceZeroInRange="false" side="RIGHT" />
                     </yAxis>
                   </LineChart>
                </children>
@@ -39,15 +39,14 @@
                            <children>
                               <AnchorPane layoutY="14.0" prefHeight="26.0" prefWidth="219.0">
                                  <children>
-                                    <TextField id="textEnterTicker" layoutX="47.0" prefHeight="26.0" prefWidth="170.0" promptText="Symbol" />
-                                    <Button id="buttonExecuteTicker" layoutX="21.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="26.0" />
+                                    <TextField id="textEnterTicker" fx:id="textEnterTicker" layoutX="16.0" prefHeight="26.0" prefWidth="170.0" promptText="Symbol" />
                                  </children>
                               </AnchorPane>
-                              <DatePicker id="calSelectorGetStartDate" layoutX="19.0" layoutY="75.0" />
-                              <DatePicker id="calSelectorGetEndDate" layoutX="19.0" layoutY="133.0" />
+                              <DatePicker id="calSelectorStartDate" fx:id="calSelectorStart" layoutX="19.0" layoutY="75.0" />
+                              <DatePicker id="calSelectorEndDate" fx:id="calSelectorEnd" layoutX="19.0" layoutY="133.0" />
                               <Label layoutX="19.0" layoutY="59.0" text="Start Date" />
                               <Label layoutX="19.0" layoutY="117.0" text="End Date" />
-                              <Button id="buttonGetHistoricData" layoutX="22.0" layoutY="181.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="120.0" text="Historical Data" />
+                              <Button id="buttonHistoricData" fx:id="buttonHistoricData" layoutX="22.0" layoutY="181.0" mnemonicParsing="false" onAction="#clickButtonHistoricData" prefHeight="26.0" prefWidth="120.0" text="Historical Data" />
                            </children>
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="220.0" prefWidth="158.0" />
