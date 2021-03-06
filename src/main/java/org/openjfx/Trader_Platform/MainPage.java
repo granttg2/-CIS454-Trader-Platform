@@ -42,10 +42,8 @@ public class MainPage {
 			labelError.setText("Ticker must be entered");
 		}else{
 			MarketParser.parseMarketEODTotals(stock);
+			graph(stock);
 		}
-		//Graphing
-		graph(stock);
-		
 	}
 	
 	
@@ -53,7 +51,9 @@ public class MainPage {
 	private void graph(Stock stock) {
 		ArrayList<Pair<LocalDate, Double>> prices = stock.getEodTotals();
 		
-		if(prices.size() == 100) {
+		LocalDate dateEstimate = LocalDate.now().minusDays(100);
+		
+		if(prices.size() == 100 || stock.getStartDate().isBefore(dateEstimate)) {
 			labelError.setText("*Warning: API only supports prices from past hundred trading days");
 		}
 		
