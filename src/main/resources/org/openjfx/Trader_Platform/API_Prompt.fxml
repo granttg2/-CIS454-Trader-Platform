@@ -11,12 +11,13 @@
 
 <VBox id="apiMainVbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="303.0" prefWidth="256.0" spacing="20.0" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.Trader_Platform.APIPrompt">
    <children>
-      <Label prefHeight="121.0" prefWidth="216.0" text="Please Enter Your API Key" textAlignment="CENTER" textOverrun="CLIP">
+      <Label prefHeight="121.0" prefWidth="216.0" text="Please Enter Your API Key for Market Stack" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
       <TextField id="apiEnterBoxMarket" fx:id="apiEnterBoxMarket" alignment="CENTER" onKeyReleased="#getMarketKey" prefHeight="30.0" prefWidth="216.0" />
+      <Label id="labelError" fx:id="labelError" prefHeight="16.0" prefWidth="216.0" />
       <AnchorPane prefHeight="8.0" prefWidth="216.0" />
       <AnchorPane />
       <Pane>
