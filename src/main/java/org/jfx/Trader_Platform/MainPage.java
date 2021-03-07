@@ -1,4 +1,4 @@
-package org.openjfx.Trader_Platform;
+package org.jfx.Trader_Platform;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

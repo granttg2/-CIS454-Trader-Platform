@@ -3,7 +3,7 @@ package org.backend.Trader_Platform;
 import java.io.IOException;
 
 import org.json.*;
-import org.openjfx.Trader_Platform.App;
+import org.jfx.Trader_Platform.App;
 
 public class MarketParser {
 

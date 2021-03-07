@@ -2,7 +2,6 @@ package org.backend.Trader_Platform;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.Scanner;
 
 public class APICall{

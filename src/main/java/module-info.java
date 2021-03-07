@@ -5,6 +5,6 @@ module org.openjfx.Trader_Platform {
 	requires javafx.graphics;
 	requires json;
 
-    opens org.openjfx.Trader_Platform to javafx.fxml;
-    exports org.openjfx.Trader_Platform;
+    opens org.jfx.Trader_Platform to javafx.fxml;
+    exports org.jfx.Trader_Platform;
 }

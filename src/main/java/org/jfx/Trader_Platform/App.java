@@ -1,4 +1,4 @@
-package org.openjfx.Trader_Platform;
+package org.jfx.Trader_Platform;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

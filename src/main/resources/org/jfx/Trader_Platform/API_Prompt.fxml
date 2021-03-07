@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox id="apiMainVbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="332.0" prefWidth="256.0" spacing="20.0" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.Trader_Platform.APIPrompt">
+<VBox id="apiMainVbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="332.0" prefWidth="256.0" spacing="20.0" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.jfx.Trader_Platform.APIPrompt">
    <children>
       <Label prefHeight="121.0" prefWidth="216.0" text="Please Enter Your API Key for Market Stack" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
          <font>
