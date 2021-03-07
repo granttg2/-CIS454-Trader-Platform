@@ -21,10 +21,11 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
     	Parent root = loadFXML("API_Prompt");
     	this.stage = stage;
-        scene = new Scene(root, 256, 303);
+        scene = new Scene(root, 256, 332);
         stage.initStyle(StageStyle.UNDECORATED);
         stage.setResizable(false);
         stage.setScene(scene);
+        stage.setTitle("Trader Platform");
         stage.show();
     }
     
@@ -40,6 +41,7 @@ public class App extends Application {
     	newStage.initStyle(StageStyle.UTILITY);
     	newStage.setResizable(false);
     	newStage.setScene(new Scene(loadFXML(fxml)));
+    	newStage.setTitle("Trader Platform");
     	newStage.show();
     	stage.close();
     	stage = newStage;
