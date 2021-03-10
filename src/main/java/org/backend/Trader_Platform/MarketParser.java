@@ -13,13 +13,12 @@ public class MarketParser {
 		String end = stock.getEndDate().toString();
 		String jsonString;
 		
-
 		
 		try {
 			jsonString = APICall.getHistoricData(key, stock.getTicker(), start, end);
 			JSONObject completeJ = new JSONObject(jsonString);
 			JSONArray dataArray = completeJ.getJSONArray("data");
-			System.out.println(dataArray.length());
+
 			for(int i = dataArray.length() - 1; i >= 0; i--) {
 				JSONObject object = dataArray.getJSONObject(i);
 				stock.addNewEOD(object.getString("date"),object.getDouble("close"));

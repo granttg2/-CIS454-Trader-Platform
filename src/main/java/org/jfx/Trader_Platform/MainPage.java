@@ -16,9 +16,9 @@ import javafx.scene.control.*;
 public class MainPage {
 	@FXML private TextField textEnterTicker;
 	@FXML private DatePicker calSelectorStart, calSelectorEnd;
-	@FXML private Button buttonHistoricData;
+	@FXML private Button buttonHistoricData, buttonRealTimeData;
 	@FXML private LineChart<String, Double> lineChartHistoric;
-	@FXML private Label labelError;
+	@FXML private Label labelError, labelPrice;
 	
 	@FXML
 	public void clickButtonHistoricData() {
