@@ -11,12 +11,19 @@ public class APICall{
 		return getURLResult(url);
 	}
 	
+	public static String getRealTimeData(String key, String ticker) throws IOException {
+		String url = "http://api.marketstack.com/v1/intraday/latest?access_key=" + key + "&symbols=" + ticker ;
+		return getURLResult(url);
+	}
+	
 	private static String getURLResult(String url) throws IOException {
 		try(Scanner scanner = new Scanner(new URL(url).openStream(), StandardCharsets.UTF_8.toString())){
 			scanner.useDelimiter("\\A");
 			return scanner.hasNext() ? scanner.next() : "";
 		}
 	}
+	
+	
 }
       
    
