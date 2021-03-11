@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import org.json.*;
-import org.jfx.Trader_Platform.App;
 
 public class CoinParser {
 
@@ -15,7 +14,7 @@ public class CoinParser {
 		LocalDate lDate = stock.getEndDate(); 
 		
 		try {
-			jsonString = CoinCall.getCoinHistory(stock.getTicker(), start, end);
+			jsonString = APICall.getCoinHistory(stock.getTicker(), start, end);
 			JSONArray completeA = new JSONArray(jsonString);
 
 			for(int i = completeA.length() - 1; i >= 0; i--) {
