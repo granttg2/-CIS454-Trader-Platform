@@ -31,5 +31,22 @@ public class MarketParser {
 		
 	}
 	
+	public static void parseMarketRealTime(Stock stock) {
+		String key = App.getKeys().getMarketKey();
+		String jsonString;
+		
+		try {
+			jsonString = APICall.getRealTimeData(key, stock.getTicker());
+			JSONObject completeJ = new JSONObject(jsonString);
+			JSONArray dataArray = completeJ.getJSONArray("data");
+			System.out.println(dataArray.length());
+			for(int i = dataArray.length() - 1; i >= 0; i--) {
+				JSONObject object = dataArray.getJSONObject(i);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}	
+	
 	
 }
