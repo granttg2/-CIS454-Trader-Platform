@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class APICall{
 	
+	//Gets historical data for market stack api with given parameters
 	public static String getHistoricData(String key, String ticker, String startDay, String endDay) throws IOException {
 		String url = "http://api.marketstack.com/v1/eod?access_key=" + key + "&symbols=" + ticker + "&date_from=" + startDay + "&date_to=" + endDay;
 		return getURLResult(url);
@@ -13,6 +14,13 @@ public class APICall{
 	
 	public static String getRealTimeData(String key, String ticker) throws IOException {
 		String url = "http://api.marketstack.com/v1/intraday/latest?access_key=" + key + "&symbols=" + ticker ;
+		return getURLResult(url);
+	}
+	
+	//Gets historical Data for Coin with Parameters Ticker, startDay, endDay. *1 Day Granularity = 86400*
+	public static String getCoinHistory(String ticker, String startDay, String endDay)throws IOException{
+		String url = "https://api.pro.coinbase.com/products/" 
+					  + ticker + "-USD" + "/candles" + "?dateFrom=" + startDay + "&date_to=" + endDay + "&granularity=86400";
 		return getURLResult(url);
 	}
 	
