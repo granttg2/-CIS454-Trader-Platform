@@ -40,9 +40,9 @@ public class MarketParser {
 			JSONObject completeJ = new JSONObject(jsonString);
 			JSONArray dataArray = completeJ.getJSONArray("data");
 			System.out.println(dataArray.length());
-			for(int i = dataArray.length() - 1; i >= 0; i--) {
-				JSONObject object = dataArray.getJSONObject(i);
-			}
+			JSONObject object = dataArray.getJSONObject(0);
+			stock.setCurrentPrice(object.getDouble("last"));
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
