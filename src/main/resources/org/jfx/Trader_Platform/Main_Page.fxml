@@ -57,12 +57,13 @@
                         </AnchorPane>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="220.0" prefWidth="158.0">
                            <children>
-                              <Button id="buttonRealTimeData" fx:id="buttonRealTimeData" layoutX="32.0" layoutY="178.0" mnemonicParsing="false" text="Refresh Real Time Data" />
-                              <Label id="labelPrice" fx:id="labelPrice" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="28.0" prefHeight="132.0" prefWidth="211.0" text="\$000000.00" textAlignment="CENTER" textOverrun="CLIP">
+                              <Button id="buttonRealTimeData" fx:id="buttonRealTimeData" layoutX="32.0" layoutY="160.0" mnemonicParsing="false" onAction="#clickButtonRealTimeData" text="Refresh Real Time Data" />
+                              <Label id="labelPrice" fx:id="labelPrice" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="28.0" prefHeight="108.0" prefWidth="211.0" text="\$000000.00" textAlignment="CENTER" textOverrun="CLIP">
                                  <font>
                                     <Font size="34.0" />
                                  </font>
                               </Label>
+                              <Label id="labelRealTime" fx:id="labelRealTime" layoutX="19.0" layoutY="196.0" prefHeight="69.0" prefWidth="198.0" wrapText="true" />
                            </children></AnchorPane>
                     </items>
                   </SplitPane>

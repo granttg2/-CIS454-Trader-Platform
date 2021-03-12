@@ -10,12 +10,15 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 import org.backend.Trader_Platform.APIKeys;
+import org.backend.Trader_Platform.CoinParser;
+import org.backend.Trader_Platform.TickerList;
 
 public class App extends Application {
 
     private static Scene scene;
     private static Stage stage;
     private static APIKeys keys;
+    private static TickerList tickerList;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -34,6 +37,12 @@ public class App extends Application {
     	FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
     	return fxmlLoader.load();
     }
+    
+    private static void loadCoinTickers() {
+    	tickerList = new TickerList();
+    	CoinParser.parseCurrencyTickers(tickerList);
+    }
+    
     
     //Changes the window shown to the user
     public static void setRoot(String fxml) throws IOException {
@@ -54,8 +63,18 @@ public class App extends Application {
 	public static void setKeys(APIKeys keys) {
 		App.keys = keys;
 	}
-    
+	
+	public static TickerList getTickerList() {
+		return tickerList;
+	}
+
+	public static void setTickerList(TickerList tickerList) {
+		App.tickerList = tickerList;
+	}
+	
     public static void main(String[] args) {
+    	loadCoinTickers();
+    	//for(String s: tickerList.getTickerList()) {System.out.println(s);}
         launch();
     }
 

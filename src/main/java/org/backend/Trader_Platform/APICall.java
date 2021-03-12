@@ -28,6 +28,11 @@ public class APICall{
 		return getURLResult(url);
 	}
 	
+	public static String getCurrencyList() throws IOException {
+		String url = "https://api.pro.coinbase.com/currencies";
+		return getURLResult(url);
+	}
+	
 	/*
 	 * Utility methods
 	 */

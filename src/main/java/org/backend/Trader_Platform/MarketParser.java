@@ -34,14 +34,17 @@ public class MarketParser {
 	public static void parseMarketRealTime(Stock stock) {
 		String key = App.getKeys().getMarketKey();
 		String jsonString;
+		String time;
 		
 		try {
 			jsonString = APICall.getRealTimeData(key, stock.getTicker());
 			JSONObject completeJ = new JSONObject(jsonString);
 			JSONArray dataArray = completeJ.getJSONArray("data");
-			System.out.println(dataArray.length());
 			JSONObject object = dataArray.getJSONObject(0);
-			stock.setCurrentPrice(object.getDouble("last"));
+			time = object.getString("date");
+			time = time.substring(time.indexOf('T')+1, time.indexOf('+'));
+			stock.setCurrentTime(time);
+			stock.setCurrentPrice(object.getDouble("open"));
 			
 		} catch (IOException e) {
 			e.printStackTrace();

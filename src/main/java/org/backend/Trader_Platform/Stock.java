@@ -7,9 +7,9 @@ import java.util.Locale;
 //Stock Data structure
 public class Stock {
 
-	private String ticker, stockName;
+	private String ticker, stockName, currentTime;
 	private ArrayList<Pair<LocalDate, Double>> eodTotals;
-	private Float currentPrice;
+	private Double currentPrice;
 	private LocalDate start, end;
 	public Stock (String tick) {
 		this.ticker = tick;
@@ -22,8 +22,10 @@ public class Stock {
 	}
 	
 	//Takes string in the yyyy-MM-dd'T'HH:mm:ss.SSSXXX(matches with market stack api)
-	public LocalDate generateLocalDate(String date) {
-		date = date.substring(0, date.indexOf('T'));
+	public static LocalDate generateLocalDate(String date) {
+		if(date.contains("T")) {
+			date = date.substring(0, date.indexOf('T'));
+		}
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH);
 		LocalDate dateNew = LocalDate.parse(date, format);
 		return dateNew;
@@ -64,12 +66,20 @@ public class Stock {
 		this.stockName = stockName;
 	}
 
-	public Float getCurrentPrice() {
+	public Double getCurrentPrice() {
 		return currentPrice;
 	}
 
-	public void setCurrentPrice(Float currentPrice) {
-		this.currentPrice = currentPrice;
+	public void setCurrentPrice(double d) {
+		this.currentPrice = d;
+	}
+
+	public String getCurrentTime() {
+		return currentTime;
+	}
+
+	public void setCurrentTime(String currentTime) {
+		this.currentTime = currentTime;
 	}
 	
 }
