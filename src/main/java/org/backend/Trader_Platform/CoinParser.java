@@ -3,6 +3,7 @@ package org.backend.Trader_Platform;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 import org.json.*;
 
@@ -12,7 +13,7 @@ public class CoinParser {
 		String start = stock.getStartDate().toString();
 		String end = stock.getEndDate().toString();
 		String jsonString;
-		int startIndex = Period.between(stock.getStartDate(), stock.getEndDate()).getDays();
+		long startIndex = ChronoUnit.DAYS.between(stock.getStartDate(), stock.getEndDate());
 		LocalDate lDate = stock.getStartDate(); 
 		
 		try {
@@ -24,7 +25,7 @@ public class CoinParser {
 				lDate = stock.getEndDate().minusDays(completeA.length());
 			}
 			
-			for(int i = startIndex; i >= 0; i--) {
+			for(int i = (int) startIndex; i >= 0; i--) {
 				JSONArray object = completeA.getJSONArray(i);
 				stock.addNewEOD(lDate.toString(),object.getDouble(4));
 				lDate = lDate.plusDays(1);
