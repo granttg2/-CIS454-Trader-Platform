@@ -14,6 +14,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 
 public class MainPage {
 	@FXML private TextField textEnterTicker;
@@ -90,6 +91,11 @@ public class MainPage {
 		
 		lineChartHistoric.getData().add(series);
 		lineChartHistoric.autosize();
+		series.getData().stream().forEach(lineData ->{
+			lineData.getNode().addEventHandler(MouseEvent.MOUSE_MOVED, event -> {
+				System.out.println("In Chart");
+			});
+		});
 	}
 	
 	
