@@ -52,6 +52,37 @@ public class CoinParser {
 		}
 	}
 	
+	public static void parseExchangeRate(TickerList tickers) {
+		String jsonString;
+		
+		try {
+			jsonString = APICall.getExchangeReate();
+			JSONArray curArray = new JSONArray(jsonString);
+			
+			
+			JSONObject object = curArray.getJSONObject(0);
+			tickers.addTicker(object.getString("rate"));
+			
+		
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void parseSpotPrice(TickerList tickers) {
+		String jsonString;
+		
+		try {
+			jsonString = APICall.getSpotPrice();
+			JSONArray curArray = new JSONArray(jsonString);
+			
+			JSONObject object = curArray.getJSONObject(0);
+			tickers.addTicker(object.getString("data"));
+			
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
 

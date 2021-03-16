@@ -33,6 +33,16 @@ public class APICall{
 		return getURLResult(url);
 	}
 	
+	public static String getExchangeReate() throws IOException {
+		String url = "https://api.coinbase.com/v2/exchange-rates";
+		return getURLResult(url);
+	}
+	
+	public static String getSpotPrice() throws IOException {
+		String url = "https://api.coinbase.com/v2/prices/:currency_pair/spot";
+		return getURLResult(url);
+				
+	}
 	/*
 	 * Utility methods
 	 */
