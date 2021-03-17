@@ -8,6 +8,7 @@ public class Simulator {
 	private TradingData[] tradingFlags;
 	private Double budget, startingMoney, endingMoney;
 	private LocalDate simEnd;
+	private int initialBuy;//Number of stocks to buy at the start of simulation
 
 	/*
 	 * Flags: 
@@ -93,6 +94,14 @@ public class Simulator {
 
 	public void setSimEnd(LocalDate simEnd) {
 		this.simEnd = simEnd;
+	}
+
+	public int getInitialBuy() {
+		return initialBuy;
+	}
+
+	public void setInitialBuy(int initialBuy) {
+		this.initialBuy = initialBuy;
 	}
 	
 	
