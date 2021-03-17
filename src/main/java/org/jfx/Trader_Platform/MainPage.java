@@ -21,7 +21,7 @@ public class MainPage {
 	@FXML private DatePicker calSelectorStart, calSelectorEnd;
 	@FXML private Button buttonHistoricData, buttonRealTimeData;
 	@FXML private LineChart<String, Double> lineChartHistoric;
-	@FXML private Label labelError, labelPrice, labelRealTime;
+	@FXML private Label labelError, labelPrice, labelRealTime, labelGraphInfo;
 	
 	@FXML
 	public void clickButtonHistoricData() {
@@ -92,12 +92,38 @@ public class MainPage {
 		lineChartHistoric.getData().add(series);
 		lineChartHistoric.autosize();
 		series.getData().stream().forEach(lineData ->{
-			lineData.getNode().addEventHandler(MouseEvent.MOUSE_MOVED, event -> {
-				System.out.println("In Chart");
+			lineData.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
+				lineData.getNode().setStyle("-fx-background-color: #00FFFF , white;\n"
+	                    + "-fx-background-insets: 0, 2;\n"
+	                    + "-fx-background-radius: 5px;\n"
+	                    + "-fx-padding: 5px;");
+			});
+			lineData.getNode().addEventHandler(MouseEvent.MOUSE_EXITED, event -> {
+				lineData.getNode().setStyle("-fx-background-color: #f3622d, white;\n"
+	                    + "-fx-background-insets: 0, 2;\n"
+	                    + "-fx-background-radius: 5px;\n"
+	                    + "-fx-padding: 5px;");
+			});
+			lineData.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+				Double endValue = lineData.getYValue();
+				Double startValue = series.getData().get(0).getYValue();
+				setGraphLabel(startValue, endValue);
 			});
 		});
 	}
 	
-	
-	
+	private void setGraphLabel(Double startValue, Double endValue) {
+		if(endValue > startValue) {
+			Double percentageChange = (double) (Math.round(((endValue - startValue) / startValue) * 10000))/100;
+			labelGraphInfo.setText("Up: " + percentageChange.toString()+"%");
+			labelGraphInfo.setStyle("-fx-background-color: green;");
+		}else if (endValue < startValue){
+			Double percentageChange = (double) (Math.round(((startValue - endValue) / startValue) * 10000))/100;
+			labelGraphInfo.setText("Down: " + percentageChange.toString() +"%");
+			labelGraphInfo.setStyle("-fx-background-color: red;");
+		}else {
+			labelGraphInfo.setText("-: 0.00%");
+			labelGraphInfo.setStyle("-fx-background-color: transparent;");
+		}
+	}
 }
