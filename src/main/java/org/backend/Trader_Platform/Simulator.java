@@ -1,6 +1,7 @@
 package org.backend.Trader_Platform;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Simulator {
 	private final static int NumFlags = 4;
@@ -8,6 +9,7 @@ public class Simulator {
 	private TradingData[] tradingFlags;
 	private Double budget, startingMoney, endingMoney;
 	private LocalDate simEnd;
+	private ArrayList<Pair<LocalDate, Double>> userPortfolio;
 	private int initialBuy;//Number of stocks to buy at the start of simulation
 
 	/*
@@ -22,10 +24,13 @@ public class Simulator {
 	 * 
 	 * If a flag is true you must perform the specified operation.
 	 * 
-	 * Once all shares have been sold the simulation is over, set endingMoney to the (budget + price of portfolio)
+	 * Once all shares have been sold the simulation is over, set endingMoney to the (budget + value of held assets)
 	 *  and date at the end of the simulation.
 	 * 
 	 * Cannot buy partial stock, as stock is bought budget decreases, as stock is sold budget increases
+	 * 
+	 * For every data point that is simulated from the Stock EOD Totals, a corresponding date & money valuation
+	 * must be added to the userPortfolio. This value corresponds to the budget + value of held assets.
 	 */
 	Simulator(String ticker, Double budget){
 		setSimulatedStock(new Stock(ticker));
@@ -36,6 +41,11 @@ public class Simulator {
 		for(int i=0; i<tradingFlags.length; i++) {
 			tradingFlags[i] = new TradingData();
 		}
+	}
+	
+	
+	public void addNewDataPoint(LocalDate date, Double value) {
+		userPortfolio.add(new Pair<LocalDate, Double>(date, value));
 	}
 	
 	public void setFlag(int index, Double arg1) {
@@ -102,6 +112,14 @@ public class Simulator {
 
 	public void setInitialBuy(int initialBuy) {
 		this.initialBuy = initialBuy;
+	}
+
+	public ArrayList<Pair<LocalDate, Double>> getUserPortfolio() {
+		return userPortfolio;
+	}
+
+	public void setUserPortfolio(ArrayList<Pair<LocalDate, Double>> userPortfolio) {
+		this.userPortfolio = userPortfolio;
 	}
 	
 	
