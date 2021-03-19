@@ -40,7 +40,7 @@ public class CoinParser {
 		String jsonString;
 		
 		try {
-			jsonString = APICall.getCurrencyList();
+			jsonString = APICall.getCurrencyList(stock.getTicker());
 			JSONArray currArray = new JSONArray(jsonString);
 			
 			for(int i = 0; i < currArray.length(); i++) {
@@ -69,14 +69,17 @@ public class CoinParser {
 		}
 	}
 	
-	public static void parseSpotPrice(TickerList tickers) {
+	public static void parseSpotPrice(Stock stock) {
 		String jsonString;
+		TickerList tickers = null;
+		 
 		
 		try {
-			jsonString = APICall.getSpotPrice();
+			jsonString = APICall.getSpotPrice(stock.getTicker());
 			JSONArray curArray = new JSONArray(jsonString);
 			
 			JSONObject object = curArray.getJSONObject(0);
+			
 			tickers.addTicker(object.getString("data"));
 			
 		}catch (IOException e) {

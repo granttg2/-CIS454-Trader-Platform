@@ -38,8 +38,8 @@ public class APICall{
 		return getURLResult(url);
 	}
 	
-	public static String getSpotPrice() throws IOException {
-		String url = "https://api.coinbase.com/v2/prices/:currency_pair/spot";
+	public static String getSpotPrice(String ticker) throws IOException {
+		String url = "https://api.coinbase.com/v2/prices/" + ticker + "-USD" + "/spot";
 		return getURLResult(url);
 				
 	}
