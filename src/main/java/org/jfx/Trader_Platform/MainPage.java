@@ -23,6 +23,9 @@ public class MainPage {
 	@FXML private LineChart<String, Double> lineChartHistoric;
 	@FXML private Label labelError, labelPrice, labelRealTime, labelGraphInfo;
 	
+	/*
+	 * Data Viewer Implementation
+	 */
 	@FXML
 	public void clickButtonHistoricData() {
 		//Getting input data
@@ -61,9 +64,15 @@ public class MainPage {
 		if(stock.getTicker() == "") {
 			labelRealTime.setText("Ticker must be entered");
 		}else {
-			MarketParser.parseMarketRealTime(stock);
-			labelPrice.setText("$" + stock.getCurrentPrice().toString());
-			labelRealTime.setText("*Most recent data from: " + stock.getCurrentTime());
+			if(App.getTickerList().hasTicker(stock.getTicker())) {
+				CoinParser.parseSpotPrice(stock);
+				labelPrice.setText("$" + stock.getCurrentPrice().toString());
+				labelRealTime.setText("*Most up to date price for CoinBase \n(Refreshes every ~1min)");
+			}else {
+				MarketParser.parseMarketRealTime(stock);
+				labelPrice.setText("$" + stock.getCurrentPrice().toString());
+				labelRealTime.setText("*Most recent data from: " + stock.getCurrentTime());
+			}
 		}
 	}
 	
@@ -115,15 +124,22 @@ public class MainPage {
 	private void setGraphLabel(Double startValue, Double endValue) {
 		if(endValue > startValue) {
 			Double percentageChange = (double) (Math.round(((endValue - startValue) / startValue) * 10000))/100;
-			labelGraphInfo.setText("Up: " + percentageChange.toString()+"%");
+			labelGraphInfo.setText("Up: " + percentageChange.toString()+"%" +" Price: $" + endValue);
 			labelGraphInfo.setStyle("-fx-background-color: green;");
 		}else if (endValue < startValue){
 			Double percentageChange = (double) (Math.round(((startValue - endValue) / startValue) * 10000))/100;
-			labelGraphInfo.setText("Down: " + percentageChange.toString() +"%");
+			labelGraphInfo.setText("Down: " + percentageChange.toString() +"%" +" Price: $" + endValue);
 			labelGraphInfo.setStyle("-fx-background-color: red;");
 		}else {
-			labelGraphInfo.setText("-: 0.00%");
+			labelGraphInfo.setText("-: 0.00%" +" Price: $" + endValue);
 			labelGraphInfo.setStyle("-fx-background-color: transparent;");
 		}
 	}
+	
+	/*
+	 * Simulation Viewer
+	 */
+	
+	
+	
 }

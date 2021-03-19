@@ -40,7 +40,7 @@ public class CoinParser {
 		String jsonString;
 		
 		try {
-			jsonString = APICall.getCurrencyList(stock.getTicker());
+			jsonString = APICall.getCurrencyList();
 			JSONArray currArray = new JSONArray(jsonString);
 			
 			for(int i = 0; i < currArray.length(); i++) {
@@ -52,35 +52,33 @@ public class CoinParser {
 		}
 	}
 	
-	public static void parseExchangeRate(TickerList tickers) {
-		String jsonString;
-		
-		try {
-			jsonString = APICall.getExchangeReate();
-			JSONArray curArray = new JSONArray(jsonString);
-			
-			
-			JSONObject object = curArray.getJSONObject(0);
-			tickers.addTicker(object.getString("rate"));
-			
-		
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void parseExchangeRate(TickerList tickers) {Unused function
+//		String jsonString;
+//		
+//		try {
+//			jsonString = APICall.getExchangeReate();
+//			JSONArray curArray = new JSONArray(jsonString);
+//			
+//			
+//			JSONObject object = curArray.getJSONObject(0);
+//			tickers.addTicker(object.getString("rate"));
+//			
+//		
+//		}catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	public static void parseSpotPrice(Stock stock) {
-		String jsonString;
-		TickerList tickers = null;
-		 
+		String jsonString;		 
 		
 		try {
 			jsonString = APICall.getSpotPrice(stock.getTicker());
-			JSONArray curArray = new JSONArray(jsonString);
+			JSONObject wrapperObj = new JSONObject(jsonString);
 			
-			JSONObject object = curArray.getJSONObject(0);
+			JSONObject object = wrapperObj.getJSONObject("data");
 			
-			tickers.addTicker(object.getString("data"));
+			stock.setCurrentPrice(object.getDouble("amount"));
 			
 		}catch (IOException e) {
 			e.printStackTrace();
