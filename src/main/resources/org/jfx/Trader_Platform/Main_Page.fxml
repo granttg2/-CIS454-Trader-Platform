@@ -81,7 +81,7 @@
                   </SplitPane>
                </content>
             </Tab>
-            <Tab text="Simulation Viewer">
+            <Tab closable="false" disable="true" text="Simulation Viewer">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
