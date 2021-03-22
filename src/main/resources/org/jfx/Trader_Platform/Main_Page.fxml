@@ -5,6 +5,7 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
@@ -81,15 +82,58 @@
                   </SplitPane>
                </content>
             </Tab>
-            <Tab closable="false" disable="true" text="Simulation Viewer">
+            <Tab closable="false" text="Simulation Viewer">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Label alignment="CENTER" layoutX="38.0" layoutY="52.0" prefHeight="296.0" prefWidth="875.0" text="WIP">
-                           <font>
-                              <Font size="96.0" />
-                           </font>
-                        </Label>
+                        <SplitPane dividerPositions="0.2808022922636103" layoutX="-1.0" layoutY="-1.0" prefHeight="609.0" prefWidth="1005.0">
+                           <items>
+                              <AnchorPane prefHeight="603.0" prefWidth="338.0">
+                                 <children>
+                                    <AnchorPane layoutY="14.0" prefHeight="26.0" prefWidth="219.0">
+                                       <children>
+                                          <TextField id="textEnterTicker" fx:id="textSimTicker" layoutX="30.0" prefHeight="26.0" prefWidth="170.0" promptText="Symbol" />
+                                       </children>
+                                    </AnchorPane>
+                                    <DatePicker id="calSelectorStartDate" fx:id="calSimStart" layoutX="30.0" layoutY="75.0" />
+                                    <DatePicker id="calSelectorEndDate" fx:id="calSimEnd" layoutX="30.0" layoutY="133.0" />
+                                    <Label layoutX="30.0" layoutY="59.0" text="Start Date" />
+                                    <Label layoutX="30.0" layoutY="117.0" text="End Date" />
+                                    <Label id="labelSimError" fx:id="labelSimError" layoutX="18.0" layoutY="545.0" prefHeight="40.0" prefWidth="198.0" wrapText="true">
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </Label>
+                                    <CheckBox fx:id="checkTakeProfit" alignment="CENTER_RIGHT" contentDisplay="CENTER" layoutX="31.0" layoutY="267.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="128.0" text="Take profit at:" textAlignment="RIGHT" />
+                                    <CheckBox fx:id="checkAdditionalShares" layoutX="30.0" layoutY="304.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="128.0" text="Every n% drop, buy x more shares:" textAlignment="RIGHT" wrapText="true" />
+                                    <CheckBox fx:id="checkStopLoss" layoutX="30.0" layoutY="356.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="128.0" text="Sell shares at price:" textAlignment="RIGHT" wrapText="true" />
+                                    <CheckBox fx:id="checkDynamicStop" layoutX="30.0" layoutY="406.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="128.0" text="Sell shares at n dollars below peak price:" textAlignment="RIGHT" wrapText="true" />
+                                    <TextField fx:id="textTakeProfit" layoutX="165.0" layoutY="269.0" prefHeight="26.0" prefWidth="85.0" promptText="100.00" />
+                                    <TextField fx:id="textAddPercent" layoutX="165.0" layoutY="316.0" prefHeight="26.0" prefWidth="33.0" promptText="5" />
+                                    <TextField fx:id="textStopLoss" layoutX="165.0" layoutY="368.0" prefHeight="26.0" prefWidth="85.0" promptText="100.0" />
+                                    <TextField fx:id="textDynamicStop" layoutX="165.0" layoutY="419.0" prefHeight="26.0" prefWidth="87.0" promptText="100.0" />
+                                    <TextField fx:id="textAdd" layoutX="208.0" layoutY="316.0" prefHeight="26.0" prefWidth="41.0" promptText="20" />
+                                    <Label layoutX="198.0" layoutY="321.0" text="\%" />
+                                    <TextField fx:id="textBudget" layoutX="31.0" layoutY="180.0" promptText="Budget" />
+                                    <TextField fx:id="textShares" layoutX="31.0" layoutY="222.0" promptText="Number of Shares" />
+                                    <Button fx:id="buttonRunSimulation" layoutX="32.0" layoutY="478.0" mnemonicParsing="false" text="Run Simulation" />
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane id="graphPane" minHeight="0.0" minWidth="0.0" prefHeight="609.0" prefWidth="749.0">
+                                 <children>
+                                    <LineChart id="lineChartHistoric" fx:id="lineChartSim" axisSortingPolicy="NONE" layoutX="-174.0" legendVisible="false" prefHeight="615.0" prefWidth="749.0" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <xAxis>
+                                          <CategoryAxis side="BOTTOM" />
+                                       </xAxis>
+                                       <yAxis>
+                                          <NumberAxis forceZeroInRange="false" side="RIGHT" />
+                                       </yAxis>
+                                    </LineChart>
+                                    <Label id="labelGraphInfo" fx:id="labelSimGraph" layoutX="6.0" layoutY="6.0" prefHeight="25.0" prefWidth="206.0" text="Click a point to view more info!" />
+                                 </children>
+                              </AnchorPane>
+                           </items>
+                        </SplitPane>
                      </children>
                   </AnchorPane>
               </content>

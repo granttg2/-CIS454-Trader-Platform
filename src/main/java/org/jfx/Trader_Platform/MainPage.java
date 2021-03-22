@@ -50,10 +50,10 @@ public class MainPage {
 		}else{
 			if(coinTickers.hasTicker(stock.getTicker())) {
 				CoinParser.parseCoinEODTotals(stock);
-				graph(stock);
+				graphHistoric(stock);
 			}else {
 				MarketParser.parseMarketEODTotals(stock);
-				graph(stock);
+				graphHistoric(stock);
 			}
 		}
 	}
@@ -78,7 +78,7 @@ public class MainPage {
 	
 	
 	//Graphing EOD data in Stock
-	private void graph(Stock stock) {
+	private void graphHistoric(Stock stock) {
 		ArrayList<Pair<LocalDate, Double>> prices = stock.getEodTotals();
 		
 		LocalDate dateEstimate = LocalDate.now().minusDays(100);
@@ -139,7 +139,15 @@ public class MainPage {
 	/*
 	 * Simulation Viewer
 	 */
+	@FXML private TextField textSimTicker, textBudget, textTakeProfit, textShares, 
+							textAddPercent, textAdd, textStopLoss, textDynamicStop;
+	@FXML private Label labelSimGraph, labelSimError;
+	@FXML private DatePicker calSimStart, calSimEnd;
+	@FXML private LineChart<String, Double> lineChartSim;
+	@FXML private CheckBox checkTakeProfit, checkAdditionalShares, checkStopLoss, checkDynamicStop;
+	@FXML private Button buttonRunSimulation;
 	
+
 	
 	
 }
