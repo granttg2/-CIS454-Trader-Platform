@@ -8,7 +8,6 @@ public class Simulator {
 	private Stock simulatedStock;
 	private TradingData[] tradingFlags;
 	private Double budget, startingMoney, endingMoney;
-	private LocalDate simEnd;
 	private ArrayList<Pair<LocalDate, Double>> userPortfolio;
 	private int initialBuy;//Number of stocks to buy at the start of simulation
 
@@ -32,17 +31,80 @@ public class Simulator {
 	 * For every data point that is simulated from the Stock EOD Totals, a corresponding date & money valuation
 	 * must be added to the userPortfolio. This value corresponds to the budget + value of held assets.
 	 */
-	Simulator(String ticker, Double budget){
-		setSimulatedStock(new Stock(ticker));
+	Simulator(Stock stock, Double budget, int initBuy){
+		simulatedStock = stock;
 		tradingFlags = new TradingData[NumFlags];
 		startingMoney = budget;
 		this.budget = budget;
-		
+		initialBuy = initBuy;
+		userPortfolio = new ArrayList<Pair<LocalDate,Double>>();
 		for(int i=0; i<tradingFlags.length; i++) {
 			tradingFlags[i] = new TradingData();
 		}
 	}
 	
+	/*
+	 * Simulation function, returns true if success, false if failure.
+	 */
+	
+	public boolean simulate() {
+		Double currentStockPrice;
+		LocalDate currentDate;
+		ArrayList<Pair<LocalDate, Double>> historicData = simulatedStock.getEodTotals();
+		int numStock = initialBuy;
+		Double currentStockValue = initialBuy * historicData.get(0).getSecond();
+		Double peakPrice = 0.0;
+		
+		startingMoney = budget;
+		budget = budget - (currentStockValue);
+		if(budget < 0) {return false;}
+		
+		for(int i = 1; i<historicData.size(); i++) {
+			currentDate = historicData.get(i).getFirst();
+			currentStockPrice = historicData.get(i).getSecond();
+			
+			if(tradingFlags[0].isFlag() && tradingFlags[0].getArg1() >= currentStockPrice) {
+				currentStockValue = numStock * currentStockPrice;
+				endingMoney = budget + currentStockValue;
+				userPortfolio.add(new Pair<LocalDate, Double>(currentDate, endingMoney));
+				return true;
+			}else if(tradingFlags[1].isFlag() && tradingFlags[1].getArg1() <= currentStockPrice) {
+				currentStockValue = numStock * currentStockPrice;
+				endingMoney = budget + currentStockValue;
+				userPortfolio.add(new Pair<LocalDate, Double>(currentDate, endingMoney));
+				return true;
+			}else if(tradingFlags[2].isFlag()) {
+				if(peakPrice < currentStockPrice) {
+					currentStockValue = numStock * currentStockPrice;
+					userPortfolio.add(new Pair<LocalDate, Double>(currentDate, budget + currentStockValue));
+					peakPrice = currentStockPrice;
+				}else if((peakPrice - currentStockPrice) >= tradingFlags[2].getArg1()) {
+					currentStockValue = numStock * currentStockPrice;
+					endingMoney = budget + currentStockValue;
+					userPortfolio.add(new Pair<LocalDate, Double>(currentDate, endingMoney));
+					return true;
+				}
+			}else if(tradingFlags[3].isFlag()) {
+				Double lastPrice = historicData.get(i-1).getSecond();
+				Double percentChange = ((lastPrice - historicData.get(i).getSecond())/lastPrice) * 100;
+				if(percentChange > tradingFlags[3].getArg1()) {
+					int toBuy = tradingFlags[3].getArg2().intValue();
+					Double addedValue = toBuy * currentStockPrice;
+					if(budget > addedValue) {
+						numStock += toBuy;
+						budget -= addedValue;
+					}
+					currentStockValue = numStock * currentStockPrice;
+					userPortfolio.add(new Pair<LocalDate, Double>(currentDate, budget + currentStockValue));
+				}
+			}else {
+				currentStockValue = numStock * currentStockPrice;
+				userPortfolio.add(new Pair<LocalDate, Double>(currentDate, budget + currentStockValue));
+			}
+		}
+		endingMoney = currentStockValue + budget;
+		return true;
+	}
 	
 	public void addNewDataPoint(LocalDate date, Double value) {
 		userPortfolio.add(new Pair<LocalDate, Double>(date, value));
@@ -96,14 +158,6 @@ public class Simulator {
 
 	public void setEndingMoney(Double endingMoney) {
 		this.endingMoney = endingMoney;
-	}
-
-	public LocalDate getSimEnd() {
-		return simEnd;
-	}
-
-	public void setSimEnd(LocalDate simEnd) {
-		this.simEnd = simEnd;
 	}
 
 	public int getInitialBuy() {
