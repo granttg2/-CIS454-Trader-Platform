@@ -99,7 +99,7 @@
                                     <DatePicker id="calSelectorEndDate" fx:id="calSimEnd" layoutX="30.0" layoutY="125.0" onAction="#startingDateUpdate" />
                                     <Label layoutX="30.0" layoutY="59.0" text="Start Date" />
                                     <Label layoutX="30.0" layoutY="109.0" text="End Date" />
-                                    <Label id="labelSimError" fx:id="labelSimError" layoutX="-1.0" layoutY="577.0" prefHeight="33.0" prefWidth="284.0" wrapText="true">
+                                    <Label id="labelSimError" fx:id="labelSimError" layoutX="-1.0" layoutY="565.0" prefHeight="45.0" prefWidth="284.0" wrapText="true">
                                        <font>
                                           <Font size="11.0" />
                                        </font>
