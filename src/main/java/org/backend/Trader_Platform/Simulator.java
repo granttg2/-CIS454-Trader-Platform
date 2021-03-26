@@ -31,7 +31,7 @@ public class Simulator {
 	 * For every data point that is simulated from the Stock EOD Totals, a corresponding date & money valuation
 	 * must be added to the userPortfolio. This value corresponds to the budget + value of held assets.
 	 */
-	Simulator(Stock stock, Double budget, int initBuy){
+	public Simulator(Stock stock, Double budget, int initBuy){
 		simulatedStock = stock;
 		tradingFlags = new TradingData[NumFlags];
 		startingMoney = budget;
@@ -51,56 +51,67 @@ public class Simulator {
 		Double currentStockPrice;
 		LocalDate currentDate;
 		ArrayList<Pair<LocalDate, Double>> historicData = simulatedStock.getEodTotals();
+
+
+		
+		//Initializing data for loop
 		int numStock = initialBuy;
 		Double currentStockValue = initialBuy * historicData.get(0).getSecond();
-		Double peakPrice = 0.0;
+		Double peakPrice = historicData.get(0).getSecond();
+		boolean flag = false;
+		
 		
 		startingMoney = budget;
-		budget = budget - (currentStockValue);
-		if(budget < 0) {return false;}
+		budget = budget - currentStockValue;
+		if(budget < 0) {
+			return false;
+		}
+		else {
+			userPortfolio.add(new Pair<LocalDate, Double>(historicData.get(0).getFirst(), budget + currentStockValue));
+		}
+
 		
 		for(int i = 1; i<historicData.size(); i++) {
 			currentDate = historicData.get(i).getFirst();
 			currentStockPrice = historicData.get(i).getSecond();
 			
 			if(tradingFlags[0].isFlag() && tradingFlags[0].getArg1() >= currentStockPrice) {
-				currentStockValue = numStock * currentStockPrice;
-				endingMoney = budget + currentStockValue;
-				userPortfolio.add(new Pair<LocalDate, Double>(currentDate, endingMoney));
-				return true;
-			}else if(tradingFlags[1].isFlag() && tradingFlags[1].getArg1() <= currentStockPrice) {
-				currentStockValue = numStock * currentStockPrice;
-				endingMoney = budget + currentStockValue;
-				userPortfolio.add(new Pair<LocalDate, Double>(currentDate, endingMoney));
-				return true;
-			}else if(tradingFlags[2].isFlag()) {
+				flag = true;
+			}
+			if(tradingFlags[1].isFlag() && tradingFlags[1].getArg1() <= currentStockPrice) {
+				flag = true;
+			}
+			if(tradingFlags[2].isFlag()) {
 				if(peakPrice < currentStockPrice) {
-					currentStockValue = numStock * currentStockPrice;
-					userPortfolio.add(new Pair<LocalDate, Double>(currentDate, budget + currentStockValue));
 					peakPrice = currentStockPrice;
-				}else if((peakPrice - currentStockPrice) >= tradingFlags[2].getArg1()) {
-					currentStockValue = numStock * currentStockPrice;
-					endingMoney = budget + currentStockValue;
-					userPortfolio.add(new Pair<LocalDate, Double>(currentDate, endingMoney));
-					return true;
 				}
-			}else if(tradingFlags[3].isFlag()) {
+				if((peakPrice - currentStockPrice) >= tradingFlags[2].getArg1()) {
+					flag = true;
+				}
+			}
+			if(tradingFlags[3].isFlag()) {
 				Double lastPrice = historicData.get(i-1).getSecond();
 				Double percentChange = ((lastPrice - historicData.get(i).getSecond())/lastPrice) * 100;
-				if(percentChange > tradingFlags[3].getArg1()) {
+				if(percentChange >= tradingFlags[3].getArg1()) {
 					int toBuy = tradingFlags[3].getArg2().intValue();
 					Double addedValue = toBuy * currentStockPrice;
 					if(budget > addedValue) {
 						numStock += toBuy;
 						budget -= addedValue;
 					}
-					currentStockValue = numStock * currentStockPrice;
-					userPortfolio.add(new Pair<LocalDate, Double>(currentDate, budget + currentStockValue));
 				}
+			}
+			//Checking if the ending flag has been set, if so end the simulation, otherwise continue after adding a data point
+			if(flag) {
+				currentStockValue = numStock * currentStockPrice;
+				endingMoney = budget + currentStockValue;
+				userPortfolio.add(new Pair<LocalDate, Double>(currentDate, endingMoney));
+				return true;
 			}else {
 				currentStockValue = numStock * currentStockPrice;
 				userPortfolio.add(new Pair<LocalDate, Double>(currentDate, budget + currentStockValue));
 			}
+			
 		}
 		endingMoney = currentStockValue + budget;
 		return true;

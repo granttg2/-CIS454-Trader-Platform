@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.backend.Trader_Platform.CoinParser;
 import org.backend.Trader_Platform.MarketParser;
 import org.backend.Trader_Platform.Pair;
+import org.backend.Trader_Platform.Simulator;
 import org.backend.Trader_Platform.Stock;
 import org.backend.Trader_Platform.TickerList;
 
@@ -27,7 +28,7 @@ public class MainPage {
 	 * Data Viewer Implementation
 	 */
 	@FXML
-	public void clickButtonHistoricData() {
+	public void clickButtonHistoricData() {		
 		//Getting input data
 		Stock stock = new Stock(textEnterTicker.getText());
 		TickerList coinTickers = App.getTickerList();
@@ -41,7 +42,7 @@ public class MainPage {
 		//Error checking and calling parser
 		if(stock.getStartDate().isAfter(stock.getEndDate())) {
 			labelError.setText("Date Error");
-		}else if (stock.getEndDate().isAfter(LocalDate.now())) {
+		}else if (stock.getEndDate().isAfter(LocalDate.now().minusDays(1))) {
 			labelError.setText("Dates must be before " + LocalDate.now());
 		}else if(stock.getEndDate().equals(null) || stock.getStartDate().equals(null)){
 			labelError.setText("Dates must be entered");
@@ -50,10 +51,10 @@ public class MainPage {
 		}else{
 			if(coinTickers.hasTicker(stock.getTicker())) {
 				CoinParser.parseCoinEODTotals(stock);
-				graphHistoric(stock);
+				graph(stock.getEodTotals(), lineChartHistoric, labelError, labelGraphInfo);
 			}else {
 				MarketParser.parseMarketEODTotals(stock);
-				graphHistoric(stock);
+				graph(stock.getEodTotals(), lineChartHistoric, labelError, labelGraphInfo);
 			}
 		}
 	}
@@ -76,21 +77,139 @@ public class MainPage {
 		}
 	}
 	
+	/*
+	 * Simulation Viewer
+	 */
+	@FXML private TextField textSimTicker, textBudget, textTakeProfit, textShares, 
+							textAddPercent, textAdd, textStopLoss, textDynamicStop;
+	@FXML private Label labelSimGraph, labelSimError, labelStartPrice;
+	@FXML private DatePicker calSimStart, calSimEnd;
+	@FXML private LineChart<String, Double> lineChartSim;
+	@FXML private CheckBox checkTakeProfit, checkAdditionalShares, checkStopLoss, checkDynamicStop;
+	@FXML private Button buttonRunSimulation;
 	
+	
+	//Gathers parameters, runs simulation, calls function to display results
+	@FXML
+	private void clickButtonRunSimulation() {
+		//Declaring data fields
+		Stock stock;
+		TickerList coinTickers;
+		Simulator sim;
+		Double budget = 0.0;
+		int initBuy = 0;
+		
+		labelSimError.setText("");
+		
+		//Getting input data
+		stock = new Stock(textSimTicker.getText());
+		coinTickers = App.getTickerList();
+		try {
+			stock.setStartDate(calSimStart.getValue());
+			stock.setEndDate(calSimEnd.getValue());
+		}catch(Exception e) {
+			System.out.println("Null calendar values");
+		}
+		
+		//Error checking and calling parser
+		if(stock.getStartDate().isAfter(stock.getEndDate())) {
+			labelSimError.setText("Date Error");
+		}else if (stock.getEndDate().isAfter(LocalDate.now().minusDays(1))) {
+			labelSimError.setText("Dates must be before " + LocalDate.now());
+		}else if(stock.getEndDate().equals(null) || stock.getStartDate().equals(null)){
+			labelSimError.setText("Dates must be entered");
+		}else if(stock.getTicker() == ""){
+			labelSimError.setText("Ticker must be entered");
+		}else{
+			if(coinTickers.hasTicker(stock.getTicker())) {
+				CoinParser.parseCoinEODTotals(stock);
+			}else {
+				MarketParser.parseMarketEODTotals(stock);
+			}
+		}
+		
+		if(textBudget.getText().isBlank()|| textShares.getText().isBlank()) {
+			labelSimError.setText("Must enter both Budget, and Initial Shares to buy");
+			return;
+		}else {
+			budget = Double.parseDouble(textBudget.getText());
+			initBuy = Integer.parseInt(textShares.getText());
+		}
+		
+		try {
+			sim = new Simulator(stock, budget, initBuy);
+		}catch(Exception e) {
+			System.out.println("Not a number");
+			return;
+		}
+		
+		
+		
+		if(checkStopLoss.isSelected()) {
+			sim.setFlag(0, Double.parseDouble(textStopLoss.getText()));
+		}
+		
+		if(checkTakeProfit.isSelected()) {
+			sim.setFlag(1, Double.parseDouble(textTakeProfit.getText()));
+		}
+		
+		if(checkDynamicStop.isSelected()) {
+			sim.setFlag(2, Double.parseDouble(textDynamicStop.getText()));
+		}
+		
+		if(checkAdditionalShares.isSelected()) {
+			sim.setFlag(3, Double.parseDouble(textAddPercent.getText()), Double.parseDouble(textAdd.getText()));
+		}
+		
+		sim.simulate(); //Runs the simulation, populating needed data.
+		
+		graph(sim.getUserPortfolio(), lineChartSim, labelSimError, labelSimGraph);
+		
+		System.out.println("Starting $$$: " + sim.getStartingMoney());
+		System.out.println("Starting $$$: " + sim.getEndingMoney());
+		
+		
+	}
+	
+	//Showing most recent price for stock on given start date
+	@FXML
+	private void startingDateUpdate() {
+		Stock stock = new Stock(textSimTicker.getText());
+		TickerList coinTickers = App.getTickerList();
+		try {
+			stock.setStartDate(calSimStart.getValue());
+			stock.setEndDate(calSimEnd.getValue());
+		}catch(Exception e) {
+			System.out.println("Null calendar values");
+		}
+		
+		if (stock.getEndDate().isAfter(LocalDate.now().minusDays(1))) {
+			labelSimError.setText("Dates must be before " + LocalDate.now());
+		}else if(coinTickers.hasTicker(stock.getTicker())) {
+			CoinParser.parseCoinEODTotals(stock);
+			labelStartPrice.setText("APPROX Start Price: " + stock.getEodTotals().get(0).getSecond().toString());
+		}else {
+			MarketParser.parseMarketEODTotals(stock);
+			labelStartPrice.setText("APPROX Start Price: " + stock.getEodTotals().get(0).getSecond().toString());
+		}
+	}
+	
+/*
+ * Generic Helper functions
+ */
 	//Graphing EOD data in Stock
-	private void graphHistoric(Stock stock) {
-		ArrayList<Pair<LocalDate, Double>> prices = stock.getEodTotals();
+	private void graph(ArrayList<Pair<LocalDate, Double>> prices, LineChart<String, Double> graph, Label error, Label info) {
 		
 		LocalDate dateEstimate = LocalDate.now().minusDays(100);
 		
-		if(prices.size() == 100 || stock.getStartDate().isBefore(dateEstimate)) {
-			labelError.setText("*Warning: API only supports variable historic data");
+		if(prices.size() == 100 || prices.get(0).getFirst().isBefore(dateEstimate)) {
+			error.setText("*Warning: API only supports variable historic data");
 		}else {
-			labelError.setText("Some API plans do not support data up until previous day");
+			error.setText("*Some API plans do not support data up until previous day");
 		}
 		
-		lineChartHistoric.getData().clear();
-		lineChartHistoric.setAnimated(false);
+		graph.getData().clear();
+		graph.setAnimated(false);
 		
 		final Series<String, Double> series = new XYChart.Series<String, Double>();
 		
@@ -98,8 +217,8 @@ public class MainPage {
 			series.getData().add(new XYChart.Data<String, Double>(i.getFirst().toString(), i.getSecond()));
 		}
 		
-		lineChartHistoric.getData().add(series);
-		lineChartHistoric.autosize();
+		graph.getData().add(series);
+		graph.autosize();
 		series.getData().stream().forEach(lineData ->{
 			lineData.getNode().addEventHandler(MouseEvent.MOUSE_ENTERED, event -> {
 				lineData.getNode().setStyle("-fx-background-color: #00FFFF , white;\n"
@@ -116,38 +235,28 @@ public class MainPage {
 			lineData.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
 				Double endValue = lineData.getYValue();
 				Double startValue = series.getData().get(0).getYValue();
-				setGraphLabel(startValue, endValue);
+				setGraphLabel(info, startValue, endValue, lineData.getXValue());
 			});
 		});
 	}
 	
-	private void setGraphLabel(Double startValue, Double endValue) {
+	private void setGraphLabel(Label info, Double startValue, Double endValue, String date) {
 		if(endValue > startValue) {
 			Double percentageChange = (double) (Math.round(((endValue - startValue) / startValue) * 10000))/100;
-			labelGraphInfo.setText("Up: " + percentageChange.toString()+"%" +" Price: $" + endValue);
-			labelGraphInfo.setStyle("-fx-background-color: green;");
+			info.setText("Up: " + percentageChange.toString()+"%" +"\nPrice: $" + endValue + "\nOn: " + date);
+			info.setStyle("-fx-background-color: green;");
 		}else if (endValue < startValue){
 			Double percentageChange = (double) (Math.round(((startValue - endValue) / startValue) * 10000))/100;
-			labelGraphInfo.setText("Down: " + percentageChange.toString() +"%" +" Price: $" + endValue);
-			labelGraphInfo.setStyle("-fx-background-color: red;");
+			info.setText("Down: " + percentageChange.toString() +"%" +"\nPrice: $" + endValue + "\nOn: " + date);
+			info.setStyle("-fx-background-color: red;");
 		}else {
-			labelGraphInfo.setText("-: 0.00%" +" Price: $" + endValue);
-			labelGraphInfo.setStyle("-fx-background-color: transparent;");
+			info.setText("-: 0.00%" +" Price: $" + endValue + "\nOn: " + date);
+			info.setStyle("-fx-background-color: transparent;");
 		}
 	}
 	
-	/*
-	 * Simulation Viewer
-	 */
-	@FXML private TextField textSimTicker, textBudget, textTakeProfit, textShares, 
-							textAddPercent, textAdd, textStopLoss, textDynamicStop;
-	@FXML private Label labelSimGraph, labelSimError;
-	@FXML private DatePicker calSimStart, calSimEnd;
-	@FXML private LineChart<String, Double> lineChartSim;
-	@FXML private CheckBox checkTakeProfit, checkAdditionalShares, checkStopLoss, checkDynamicStop;
-	@FXML private Button buttonRunSimulation;
 	
-
+	
 	
 	
 }
