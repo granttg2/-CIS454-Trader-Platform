@@ -99,7 +99,7 @@
                                     <DatePicker id="calSelectorEndDate" fx:id="calSimEnd" layoutX="30.0" layoutY="125.0" onAction="#startingDateUpdate" />
                                     <Label layoutX="30.0" layoutY="59.0" text="Start Date" />
                                     <Label layoutX="30.0" layoutY="109.0" text="End Date" />
-                                    <Label id="labelSimError" fx:id="labelSimError" layoutX="18.0" layoutY="545.0" prefHeight="40.0" prefWidth="198.0" wrapText="true">
+                                    <Label id="labelSimError" fx:id="labelSimError" layoutX="-1.0" layoutY="577.0" prefHeight="33.0" prefWidth="284.0" wrapText="true">
                                        <font>
                                           <Font size="11.0" />
                                        </font>
@@ -118,6 +118,18 @@
                                     <TextField fx:id="textShares" layoutX="32.0" layoutY="221.0" promptText="Number of Shares" />
                                     <Button fx:id="buttonRunSimulation" layoutX="32.0" layoutY="478.0" mnemonicParsing="false" onMouseClicked="#clickButtonRunSimulation" text="Run Simulation" />
                                     <Label fx:id="labelStartPrice" layoutX="31.0" layoutY="151.0" prefHeight="16.0" prefWidth="197.0" text="Start Price:" />
+                                    <Label layoutX="121.0" layoutY="512.0" text="End Value:" />
+                                    <Label layoutX="12.0" layoutY="512.0" text="Start Value:" />
+                                    <Label fx:id="labelStartValue" layoutX="14.0" layoutY="528.0" prefHeight="46.0" prefWidth="107.0" text="\$000000">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="labelEndValue" layoutX="118.0" layoutY="528.0" prefHeight="46.0" prefWidth="107.0" text="\$000000">
+                                       <font>
+                                          <Font size="15.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
                               <AnchorPane id="graphPane" minHeight="0.0" minWidth="0.0" prefHeight="609.0" prefWidth="749.0">

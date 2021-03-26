@@ -82,7 +82,7 @@ public class MainPage {
 	 */
 	@FXML private TextField textSimTicker, textBudget, textTakeProfit, textShares, 
 							textAddPercent, textAdd, textStopLoss, textDynamicStop;
-	@FXML private Label labelSimGraph, labelSimError, labelStartPrice;
+	@FXML private Label labelSimGraph, labelSimError, labelStartPrice, labelStartValue, labelEndValue;
 	@FXML private DatePicker calSimStart, calSimEnd;
 	@FXML private LineChart<String, Double> lineChartSim;
 	@FXML private CheckBox checkTakeProfit, checkAdditionalShares, checkStopLoss, checkDynamicStop;
@@ -100,6 +100,9 @@ public class MainPage {
 		int initBuy = 0;
 		
 		labelSimError.setText("");
+		labelStartValue.setText("$000000");
+		labelEndValue.setText("$000000");
+		lineChartSim.getData().clear();;
 		
 		//Getting input data
 		stock = new Stock(textSimTicker.getText());
@@ -165,9 +168,8 @@ public class MainPage {
 		
 		graph(sim.getUserPortfolio(), lineChartSim, labelSimError, labelSimGraph);
 		
-		System.out.println("Starting $$$: " + sim.getStartingMoney());
-		System.out.println("Starting $$$: " + sim.getEndingMoney());
-		
+		labelStartValue.setText("$" + sim.getStartingMoney());
+		labelEndValue.setText("$" + sim.getEndingMoney());
 		
 	}
 	
